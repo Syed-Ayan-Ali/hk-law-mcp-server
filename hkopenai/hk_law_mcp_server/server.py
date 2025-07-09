@@ -28,22 +28,17 @@ def create_mcp_server():
     return mcp
 
 
-def main():
-    """Run the HK OpenAI Law and Security MCP Server with command-line arguments."""
-    parser = argparse.ArgumentParser(description='HK OpenAI Law and Security Server"')
-    parser.add_argument(
-        "-s", "--sse", action="store_true", help="Run in SSE mode instead of stdio"
-    )
-    parser.add_argument(
-        "--host", type=str, default="127.0.0.1", help="Host to bind the server to"
-    )
-    args = parser.parse_args()
-
+def main(args):
+    """Run the HK OpenAI Law and Security MCP Server with command-line arguments.
+    
+    Args:
+        args: Command line arguments passed to the function.
+    """
     server = create_mcp_server()
 
     if args.sse:
-        server.run(transport="streamable-http", host=args.host)
-        print(f"Server running in SSE mode on port 8000, bound to {args.host}")
+        server.run(transport="streamable-http", host=args.host, port=args.port)
+        print(f"Server running in SSE mode on port {args.port}, bound to {args.host}")
     else:
         server.run()
         print("Server running in stdio mode")
