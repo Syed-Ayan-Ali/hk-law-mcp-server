@@ -4,7 +4,6 @@ Module for setting up and running the HK OpenAI Law and Security MCP Server.
 This module configures the server with tools for law and security data in Hong Kong.
 """
 
-import argparse
 from fastmcp import FastMCP
 from hkopenai.hk_law_mcp_server import foreign_domestic_helpers
 from typing import Dict, List, Annotated, Optional, Union
@@ -28,7 +27,7 @@ def create_mcp_server():
     return mcp
 
 
-def main(args):
+def main(host: str, port: int, sse: bool):
     """Run the HK OpenAI Law and Security MCP Server with command-line arguments.
     
     Args:
@@ -36,8 +35,8 @@ def main(args):
     """
     server = create_mcp_server()
 
-    if args.sse:
-        server.run(transport="streamable-http", host=args.host, port=args.port)
+    if sse:
+        server.run(transport="streamable-http", host=host, port=port)
         print(f"Server running in SSE mode on port {args.port}, bound to {args.host}")
     else:
         server.run()
