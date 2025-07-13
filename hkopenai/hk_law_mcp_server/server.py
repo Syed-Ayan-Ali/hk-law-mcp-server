@@ -14,15 +14,7 @@ def create_mcp_server():
     """Create and configure the MCP server"""
     mcp = FastMCP(name="HK OpenAI Law and Security Server")
 
-    @mcp.tool(
-        description="Statistics on Foreign Domestic Helpers in Hong Kong. Data source: Immigration Department"
-    )
-    def get_fdh_statistics(
-        year: Annotated[
-            Optional[int], Field(description="Filter by specific year")
-        ] = None,
-    ) -> Dict[str, Union[Dict[str, str], List[Dict[str, str]], str]]:
-        return foreign_domestic_helpers.get_fdh_statistics(year)
+    foreign_domestic_helpers.register(mcp)
 
     return mcp
 

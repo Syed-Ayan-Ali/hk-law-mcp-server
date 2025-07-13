@@ -25,7 +25,20 @@ def fetch_fdh_data() -> List[Dict[str, str]]:
     return result
 
 
-def get_fdh_statistics(
+def register(mcp):
+    """Registers the foreign domestic helpers tool with the FastMCP server."""
+    @mcp.tool(
+        description="Statistics on Foreign Domestic Helpers in Hong Kong. Data source: Immigration Department"
+    )
+    def get_foreign_domestic_helpers_statistics(
+        year: Annotated[Optional[int], Field(description="Filter by specific year")] = None,
+    ) -> Dict[str, Union[Dict[str, str], List[Dict[str, str]], str]]:
+        """Get statistics on Foreign Domestic Helpers in Hong Kong.
+        Data source: Immigration Department"""
+        return _get_foreign_domestic_helpers_statistics(year)
+
+
+def _get_foreign_domestic_helpers_statistics(
     year: Annotated[Optional[int], Field(description="Filter by specific year")] = None,
 ) -> Dict[str, Union[Dict[str, str], List[Dict[str, str]], str]]:
     """Get statistics on Foreign Domestic Helpers in Hong Kong.
