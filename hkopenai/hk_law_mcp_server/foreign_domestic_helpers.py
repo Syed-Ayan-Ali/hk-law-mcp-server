@@ -6,8 +6,8 @@ from the Immigration Department of Hong Kong.
 """
 
 import csv
-import requests
 from typing import Dict, List, Annotated, Optional, Union
+import requests
 from pydantic import Field
 
 
@@ -27,11 +27,14 @@ def fetch_fdh_data() -> List[Dict[str, str]]:
 
 def register(mcp):
     """Registers the foreign domestic helpers tool with the FastMCP server."""
+
     @mcp.tool(
         description="Statistics on Foreign Domestic Helpers in Hong Kong. Data source: Immigration Department"
     )
     def get_foreign_domestic_helpers_statistics(
-        year: Annotated[Optional[int], Field(description="Filter by specific year")] = None,
+        year: Annotated[
+            Optional[int], Field(description="Filter by specific year")
+        ] = None,
     ) -> Dict[str, Union[Dict[str, str], List[Dict[str, str]], str]]:
         """Get statistics on Foreign Domestic Helpers in Hong Kong.
         Data source: Immigration Department"""

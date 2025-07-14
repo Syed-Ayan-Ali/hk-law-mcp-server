@@ -11,6 +11,7 @@ from hkopenai.hk_law_mcp_server.server import create_mcp_server
 
 class TestApp(unittest.TestCase):
     """Test class for verifying MCP server creation and tool functionality."""
+
     @patch("hkopenai.hk_law_mcp_server.server.FastMCP")
     @patch("hkopenai.hk_law_mcp_server.server.foreign_domestic_helpers")
     def test_create_mcp_server(self, mock_foreign_domestic_helpers, mock_fastmcp):

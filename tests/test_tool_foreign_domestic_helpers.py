@@ -7,7 +7,7 @@ statistics in the HK Law MCP Server.
 
 import unittest
 from unittest.mock import patch, MagicMock
-from typing import Dict, List, Union, Any
+from typing import List, Any
 from hkopenai.hk_law_mcp_server.foreign_domestic_helpers import (
     fetch_fdh_data,
     _get_foreign_domestic_helpers_statistics,
@@ -17,6 +17,7 @@ from hkopenai.hk_law_mcp_server.foreign_domestic_helpers import (
 
 class TestForeignDomesticHelpers(unittest.TestCase):
     """Test class for verifying Foreign Domestic Helpers data processing."""
+
     CSV_DATA = """As at end of Year,Philippines,Indonesia,Others,Total
 2016,189105,154073,8335,351513
 2017,201090,159613,8948,369651
@@ -100,7 +101,9 @@ class TestForeignDomesticHelpers(unittest.TestCase):
         decorated_function = mock_decorator.call_args[0][0]
 
         # Verify the name of the decorated function
-        self.assertEqual(decorated_function.__name__, "get_foreign_domestic_helpers_statistics")
+        self.assertEqual(
+            decorated_function.__name__, "get_foreign_domestic_helpers_statistics"
+        )
 
         # Call the decorated function and verify it calls _get_foreign_domestic_helpers_statistics
         with patch(
@@ -112,4 +115,3 @@ class TestForeignDomesticHelpers(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-

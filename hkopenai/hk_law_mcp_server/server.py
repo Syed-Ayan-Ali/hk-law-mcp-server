@@ -6,8 +6,7 @@ This module configures the server with tools for law and security data in Hong K
 
 from fastmcp import FastMCP
 from hkopenai.hk_law_mcp_server import foreign_domestic_helpers
-from typing import Dict, List, Annotated, Optional, Union
-from pydantic import Field
+
 
 
 def create_mcp_server():
@@ -21,7 +20,7 @@ def create_mcp_server():
 
 def main(host: str, port: int, sse: bool):
     """Run the HK OpenAI Law and Security MCP Server with command-line arguments.
-    
+
     Args:
         args: Command line arguments passed to the function.
     """
