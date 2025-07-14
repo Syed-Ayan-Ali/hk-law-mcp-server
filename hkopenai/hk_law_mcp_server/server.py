@@ -28,11 +28,10 @@ def main(host: str, port: int, sse: bool):
 
     if sse:
         server.run(transport="streamable-http", host=host, port=port)
-        print(f"Server running in SSE mode on port {args.port}, bound to {args.host}")
+        print(f"Server running in SSE mode on port {port}, bound to {host}")
     else:
         server.run()
         print("Server running in stdio mode")
 
 
-if __name__ == "__main__":
-    main()
+

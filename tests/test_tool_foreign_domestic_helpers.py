@@ -7,7 +7,7 @@ statistics in the HK Law MCP Server.
 
 import unittest
 from unittest.mock import patch, MagicMock
-from typing import List, Any
+from typing import List, Any, Dict
 from hkopenai.hk_law_mcp_server.foreign_domestic_helpers import (
     fetch_fdh_data,
     _get_foreign_domestic_helpers_statistics,
