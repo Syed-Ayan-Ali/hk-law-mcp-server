@@ -6,14 +6,14 @@ This module contains unit tests for the server setup of the HK Law MCP Server.
 
 import unittest
 from unittest.mock import patch, Mock
-from hkopenai.hk_law_mcp_server.server import create_mcp_server
+from hkopenai.hk_law_mcp_server.server import server
 
 
 class TestApp(unittest.TestCase):
     """Test class for verifying MCP server creation and tool functionality."""
 
     @patch("hkopenai.hk_law_mcp_server.server.FastMCP")
-    @patch("hkopenai.hk_law_mcp_server.server.foreign_domestic_helpers")
+    @patch("hkopenai.hk_law_mcp_server.tools.foreign_domestic_helpers")
     def test_create_mcp_server(self, mock_foreign_domestic_helpers, mock_fastmcp):
         """Test the creation and configuration of the MCP server with mocked dependencies."""
         # Setup mocks
@@ -25,11 +25,11 @@ class TestApp(unittest.TestCase):
         mock_fastmcp.return_value = mock_server
 
         # Test server creation
-        server = create_mcp_server()
+        mcp_instance = server()
 
         # Verify server creation
         mock_fastmcp.assert_called_once()
-        self.assertEqual(server, mock_server)
+        self.assertEqual(mcp_instance, mock_server)
 
         mock_foreign_domestic_helpers.register.assert_called_once_with(mock_server)
 

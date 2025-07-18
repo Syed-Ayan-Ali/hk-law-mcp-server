@@ -5,24 +5,12 @@ This module provides functions to fetch and process statistics on Foreign Domest
 from the Immigration Department of Hong Kong.
 """
 
-import csv
 from typing import Dict, List, Annotated, Optional, Union
-import requests
 from pydantic import Field
+from hkopenai_common.csv_utils import fetch_csv_from_url
 
 
-def fetch_fdh_data() -> List[Dict[str, str]]:
-    """Fetch and parse FDH statistics from Immigration Department"""
-    url = (
-        "https://www.immd.gov.hk/opendata/eng/law-and-security/visas/statistics_FDH.csv"
-    )
-    response = requests.get(url)
-    response.raise_for_status()
 
-    reader = csv.DictReader(response.text.splitlines())
-    result = [dict(row) for row in reader]
-
-    return result
 
 
 def register(mcp):
@@ -46,7 +34,13 @@ def _get_foreign_domestic_helpers_statistics(
 ) -> Dict[str, Union[Dict[str, str], List[Dict[str, str]], str]]:
     """Get statistics on Foreign Domestic Helpers in Hong Kong.
     Data source: Immigration Department"""
-    data = fetch_fdh_data()
+    url = (
+        "https://www.immd.gov.hk/opendata/eng/law-and-security/visas/statistics_FDH.csv"
+    )
+    data = fetch_csv_from_url(url)
+
+    if "error" in data:
+        return data
 
     if year:
         year_str = str(year)

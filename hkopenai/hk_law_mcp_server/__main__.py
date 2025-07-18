@@ -5,7 +5,7 @@ This module serves as the entry point to run the server.
 """
 
 from hkopenai_common.cli_utils import cli_main
-from . import server
+from .server import server
 
 if __name__ == "__main__":
-    cli_main(server.main, "HK Law MCP Server")
+    cli_main(server, "HK Law MCP Server")
