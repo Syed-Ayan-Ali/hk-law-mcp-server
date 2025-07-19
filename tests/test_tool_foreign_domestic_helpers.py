@@ -17,34 +17,45 @@ from hkopenai.hk_law_mcp_server.tools.foreign_domestic_helpers import (
 class TestForeignDomesticHelpers(unittest.TestCase):
     """Test class for verifying Foreign Domestic Helpers data processing."""
 
-    mock_data = {
-        "data": {
+    mock_data = [
+        {
+            "As at end of Year": "2016",
+            "Philippines": "189105",
+            "Indonesia": "155577",
+            "Others": "6831",
+            "Total": "351513",
+        },
+        {
+            "As at end of Year": "2020",
+            "Philippines": "207402",
+            "Indonesia": "155577",
+            "Others": "10905",
+            "Total": "373884",
+        },
+        {
             "As at end of Year": "2024",
             "Philippines": "202972",
             "Indonesia": "155577",
             "Others": "9422",
             "Total": "367971",
-        }
-    }
+        },
+    ]
 
     def setUp(self):
-        """Set up test environment with mocked HTTP responses for data fetching."""
-        self.mock_requests = patch("requests.get").start()
-        mock_response = MagicMock()
-        mock_response.raise_for_status.return_value = None
-        mock_response.text = self.mock_data
-        mock_response.encoding = "utf-8"
-        self.mock_requests.return_value = mock_response
+        """Set up test environment with mocked data fetching."""
+        self.mock_fetch_csv = patch(
+            "hkopenai.hk_law_mcp_server.tools.foreign_domestic_helpers.fetch_csv_from_url"
+        ).start()
+        self.mock_fetch_csv.return_value = self.mock_data
         self.addCleanup(patch.stopall)
 
     def test_get_foreign_domestic_helpers_statistics_default(self):
         """Test retrieval of all Foreign Domestic Helpers statistics without filters."""
         result: Dict[str, Any] = _get_foreign_domestic_helpers_statistics()
-        print(result)
         self.assertIn("data", result)
         data = result["data"]
 
-        self.assertEqual(len(data), 9)
+        self.assertEqual(len(data), 3)
         self.assertEqual(data[0]["As at end of Year"], "2016")
         self.assertEqual(int(data[0]["Philippines"]), 189105)
         self.assertEqual(int(data[0]["Total"]), 351513)
@@ -98,7 +109,7 @@ class TestForeignDomesticHelpers(unittest.TestCase):
 
         # Call the decorated function and verify it calls _get_foreign_domestic_helpers_statistics
         with patch(
-            "hkopenai.hk_law_mcp_server.foreign_domestic_helpers._get_foreign_domestic_helpers_statistics"
+            "hkopenai.hk_law_mcp_server.tools.foreign_domestic_helpers._get_foreign_domestic_helpers_statistics"
         ) as mock_get_foreign_domestic_helpers_statistics:
             decorated_function(2023)
             mock_get_foreign_domestic_helpers_statistics.assert_called_once_with(2023)

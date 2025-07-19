@@ -31,5 +31,6 @@ class TestApp(unittest.TestCase):
         mock_fastmcp.assert_called_once()
         mock_foreign_domestic_helpers.assert_called_once_with(mock_server)
 
+
 if __name__ == "__main__":
     unittest.main()

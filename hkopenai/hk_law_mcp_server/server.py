@@ -15,6 +15,3 @@ def server():
     foreign_domestic_helpers.register(mcp)
 
     return mcp
-
-
-
