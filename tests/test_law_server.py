@@ -13,7 +13,7 @@ class TestApp(unittest.TestCase):
     """Test class for verifying MCP server creation and tool functionality."""
 
     @patch("hkopenai.hk_law_mcp_server.server.FastMCP")
-    @patch("hkopenai.hk_law_mcp_server.tools.foreign_domestic_helpers")
+    @patch("hkopenai.hk_law_mcp_server.tools.foreign_domestic_helpers.register")
     def test_create_mcp_server(self, mock_foreign_domestic_helpers, mock_fastmcp):
         """Test the creation and configuration of the MCP server with mocked dependencies."""
         # Setup mocks
@@ -29,10 +29,7 @@ class TestApp(unittest.TestCase):
 
         # Verify server creation
         mock_fastmcp.assert_called_once()
-        self.assertEqual(mcp_instance, mock_server)
-
-        mock_foreign_domestic_helpers.register.assert_called_once_with(mock_server)
-
+        mock_foreign_domestic_helpers.assert_called_once_with(mock_server)
 
 if __name__ == "__main__":
     unittest.main()

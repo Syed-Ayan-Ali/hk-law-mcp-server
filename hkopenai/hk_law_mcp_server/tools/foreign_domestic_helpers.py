@@ -9,10 +9,6 @@ from typing import Dict, List, Annotated, Optional, Union
 from pydantic import Field
 from hkopenai_common.csv_utils import fetch_csv_from_url
 
-
-
-
-
 def register(mcp):
     """Registers the foreign domestic helpers tool with the FastMCP server."""
 

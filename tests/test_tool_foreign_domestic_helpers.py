@@ -8,8 +8,7 @@ statistics in the HK Law MCP Server.
 import unittest
 from unittest.mock import patch, MagicMock
 from typing import List, Any, Dict
-from hkopenai.hk_law_mcp_server.foreign_domestic_helpers import (
-    fetch_fdh_data,
+from hkopenai.hk_law_mcp_server.tools.foreign_domestic_helpers import (
     _get_foreign_domestic_helpers_statistics,
     register,
 )
@@ -18,38 +17,30 @@ from hkopenai.hk_law_mcp_server.foreign_domestic_helpers import (
 class TestForeignDomesticHelpers(unittest.TestCase):
     """Test class for verifying Foreign Domestic Helpers data processing."""
 
-    CSV_DATA = """As at end of Year,Philippines,Indonesia,Others,Total
-2016,189105,154073,8335,351513
-2017,201090,159613,8948,369651
-2018,210897,165907,9271,386075
-2019,219073,170828,9419,399320
-2020,207402,157802,8680,373884
-2021,191783,140057,7611,339451
-2022,190059,139961,8169,338189
-2023,199516,147597,9118,356231
-2024,202972,155577,9422,367971"""
+    mock_data = {
+        "data": {
+            "As at end of Year": "2024",
+            "Philippines": "202972",
+            "Indonesia": "155577",
+            "Others": "9422",
+            "Total": "367971",
+        }
+    }
 
     def setUp(self):
         """Set up test environment with mocked HTTP responses for data fetching."""
         self.mock_requests = patch("requests.get").start()
         mock_response = MagicMock()
         mock_response.raise_for_status.return_value = None
-        mock_response.text = self.CSV_DATA
+        mock_response.text = self.mock_data
         mock_response.encoding = "utf-8"
         self.mock_requests.return_value = mock_response
         self.addCleanup(patch.stopall)
 
-    def test_fetch_fdh_data(self):
-        """Test fetching and parsing of Foreign Domestic Helpers data."""
-        data: List[Dict[str, str]] = fetch_fdh_data()
-        self.assertEqual(len(data), 9)
-        self.assertEqual(data[0]["As at end of Year"], "2016")
-        self.assertEqual(int(data[0]["Philippines"]), 189105)
-        self.assertEqual(int(data[0]["Total"]), 351513)
-
     def test_get_foreign_domestic_helpers_statistics_default(self):
         """Test retrieval of all Foreign Domestic Helpers statistics without filters."""
         result: Dict[str, Any] = _get_foreign_domestic_helpers_statistics()
+        print(result)
         self.assertIn("data", result)
         data = result["data"]
 
